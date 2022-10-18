@@ -1,13 +1,23 @@
-const palabras = ["prueba", "murcielago", "computadora", "gastroenterologo", "adivinanza","guitarra"];
+const palabras = ["prueba", "murcielago", "computadora", "gastroenterologo", "adivinanza", "guitarra"];
 
-function comenzar() {
+class Jugador {
+    constructor(nombre, puntaje) {
+        this.nombre = nombre;
+        this.puntaje = puntaje;
+    }
+}
+
+let puntos = 0;
+
+const comenzar = () => {
     console.log(palabras);
     let palabraSeleccionada = palabras[Math.floor(Math.random() * palabras.length)];
     let letra;
     let intentos = 3;
     let correcta;
 
-    alert("Bienvenidx al juego del AHORCADO!\nLa palabra contiene " + palabraSeleccionada.length + " letras");
+
+    alert("La palabra contiene " + palabraSeleccionada.length + " letras");
 
     while (intentos > 0) {
 
@@ -18,6 +28,8 @@ function comenzar() {
             alert("La letra " + letra + " NO se encuentra en la palabra");
             intentos--;
             alert("Te quedan " + intentos + " intentos");
+        } else {
+            puntos += 2;
         }
 
         correcta = prompt("Conoce la palabra? (Escriba N en caso de no conocer la palabra)");
@@ -29,7 +41,9 @@ function comenzar() {
 
     }
 
-    resultado(correcta, palabraSeleccionada);
+    eliminar(palabraSeleccionada);
+    resultado(correcta, palabraSeleccionada, puntos);
+
 }
 
 const buscar = (letra, palabraSeleccionada) => {
@@ -37,7 +51,7 @@ const buscar = (letra, palabraSeleccionada) => {
     let encontrado = false;
 
     for (let i = 0; i < palabraSeleccionada.length; i++) {
-        if (letra === palabraSeleccionada.charAt(i)) {
+        if (letra.toLowerCase() === palabraSeleccionada.charAt(i)) {
             encontrado = true;
             alert("La letra " + letra + " se encuentra en la posición " + (i + 1));
         }
@@ -46,21 +60,19 @@ const buscar = (letra, palabraSeleccionada) => {
     return encontrado;
 }
 
-const resultado = (correcta, palabraSeleccionada) => {
-
+const resultado = (correcta, palabraSeleccionada, puntos) => {  
+    
     if (correcta === palabraSeleccionada) {
-        alert("FELICITACIONES! La palabra era " + correcta);
-        eliminar(palabraSeleccionada);
-        if (palabras.length == 0) {
-            fin();
-        } else{
-            alert("Presione el botón Jugar para obtener una nueva palabra");
-        }
+        alert("FELICITACIONES! La palabra era " + correcta);        
     } else {
-        alert("Perdiste! Presiona jugar y volve a intentarlo.");
+        alert("Perdiste! La palabra era " + palabraSeleccionada);
     }
 
-
+    if (palabras.length == 0) {
+        puntajeFinal(puntos);
+    } else {
+        alert("Presione el botón Jugar para obtener una nueva palabra");
+    }
 }
 
 const eliminar = (palabraSeleccionada) => {
@@ -70,11 +82,12 @@ const eliminar = (palabraSeleccionada) => {
 
 }
 
-const fin = () =>{
+const puntajeFinal = (puntos) => {
     let btnJugar = document.getElementById("btnJugar");
     btnJugar.remove();
+    const jugador = new Jugador(prompt("No quedan mas palabras! Ingrese su nombre: "), puntos);
     let ganaste = document.createElement("div");
-    ganaste.innerHTML="Felicidades! Adivinaste las 6 palabras del Ahorcado";
+    ganaste.innerHTML = jugador.nombre + ", Tu puntaje final es: " + jugador.puntaje;
     ganaste.className = "alert alert-success col-md-4";
     document.body.append(ganaste);
 
