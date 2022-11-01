@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
@@ -13,11 +14,13 @@
     <title>Juego Ahorcado</title>
 </head>
 
-<body>
+<body class="background">
     <header></header>
-    <main>
-        <h1>El juego del ahorcado</h1>
-        <button id="btnJugar" onclick="comenzar()">Jugar</button>
+    <main class="grid-container">
+        <div id="inicio">
+            <div><img src="./assets/img/tablero_madera.png" alt="tablero madera"></div>
+            <div class="style-button"><button class="btn btn-info col-md-12" id="btnJugar">Jugar</button></div>
+        </div>
     </main>
     <footer></footer>
 

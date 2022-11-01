@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(../assets/img/background.jpg);
+
+}
+
+.grid-container {
+    font-family: "Calibre", "Inter", "San Francisco", "SF Pro Text", system-ui, sans-serif;
+    display: grid;
+    min-height: 100vh;
+    justify-content: center;
+    justify-items: center;
+}
+
+#inicio {
+    padding: 30px;
+}
+
+.style-button{
+    padding-top: 70px;
+}
+
+.background {
+    background-position: center;
+    background-size: cover;
+    background-repeat:no-repeat ;
+    max-width: 100%;
+}
