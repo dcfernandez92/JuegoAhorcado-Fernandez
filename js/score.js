@@ -2,7 +2,7 @@ const tbody = document.getElementById("score-list-container")
 const lista = JSON.parse(localStorage.getItem("listaMejoresJugadores"));
 
 for (let i = 0; i < lista.length; i++) {
-    const tr = document.createElement('tr')
+        const tr = document.createElement('tr')
         tr.innerHTML = `                
                 <td>${(i+1)+"°"}</td>
                 <td>${lista[i].nickname}</td>
@@ -27,5 +27,3 @@ for (let i = 0; i < lista.length; i++) {
 //             lista.append(tr)
 //         })
 //     })
-
-    

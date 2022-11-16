@@ -107,12 +107,12 @@ const verificarResultado = () => {
     if (vidas == 0) {
         fin(false);
     }
-    if (aciertos == palabraSeleccionada.length) {        
+    if (aciertos == palabraSeleccionada.length) {
         palabrasAdivinadas++;
         mostrarAlertPalabra(palabraSeleccionada);
         sleep(1000).then(() => {
             fin(true);
-        });        
+        });
     }
 }
 
@@ -135,7 +135,7 @@ const fin = (ganador) => {
     } else {
         verificarTopScore();
         generarConfetti();
-        mostrarMensajeFinal();        
+        mostrarMensajeFinal();
         sleep(5000).then(() => {
             window.location.href = "../index.html";
         });
@@ -160,7 +160,7 @@ const verificarTopScore = () => {
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
-const mostrarMensajeFinal = () => {  
+const mostrarMensajeFinal = () => {
 
     Swal.fire({
         position: 'center',
