@@ -17,7 +17,13 @@ jugar.onclick = () => {
         jugar.href = "./pages/game.html";
     } else {
         // TODO: ver como informar campo incompleto (alert/sweetAlert2/toast)
-        alert("complete nickname");
+        Toastify({
+            text: "Debe ingresar un nickname",
+            style: {
+                background: "linear-gradient(to right, #d80000, #e91b1b)",
+            },
+            duration: 3000
+        }).showToast();
     }
 }
 

@@ -3,14 +3,16 @@ const containerSelectedWord = document.getElementById("container-selected-word")
 const containerAlphabet = document.getElementById("alphabet-container");
 const btnGetWord = document.getElementById("btn-get-word");
 const points = document.getElementById("points");
-
-let palabras = ["prueba", "guitarra"];
+let palabras = ["prueba", "murcielago", "computadora", "gastroenterologo", "adivinanza", "guitarra"];
+// variable que puede ser utilizada para testear con un array con menos palabras
+// let palabras = ["ab", "cd"];
 const alfabeto = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 let mostrarAlfabeto = false;
 let multiplicador = 0;
 let puntos = 0;
 let vidas = 3;
 let aciertos = 0;
+let palabrasAdivinadas = 0;
 
 for (let i = 0; i < alfabeto.length; i++) {
     const divLetraAlfabeto = document.createElement("button");
@@ -85,13 +87,10 @@ const seleccionarLetra = (btnLetra) => {
 
 const verificarPuntaje = (contador) => {
     if (contador != 0) {
-        console.log("letra encontrada");
         multiplicador += 1;
         let jugador = JSON.parse(localStorage.getItem("jugador"));
-        console.log(jugador.puntos);
         puntos = jugador.puntos;
         jugador.puntos += contador * multiplicador;
-        console.log(jugador.puntos);
         points.innerHTML = jugador.puntos;
         localStorage.setItem("jugador", JSON.stringify(jugador));
     } else {
@@ -108,12 +107,25 @@ const verificarResultado = () => {
     if (vidas == 0) {
         fin(false);
     }
-    if (aciertos == palabraSeleccionada.length) {
-        alert("adivinaste la palabra primo");
-        fin(true);
+    if (aciertos == palabraSeleccionada.length) {        
+        palabrasAdivinadas++;
+        mostrarAlertPalabra(palabraSeleccionada);
+        sleep(1000).then(() => {
+            fin(true);
+        });        
     }
 }
 
+const mostrarAlertPalabra = (palabraSeleccionada) => {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'PERFECTO!',
+        text: "Adivinaste la palabra " + palabraSeleccionada,
+        showConfirmButton: false,
+        timer: 3000
+    })
+}
 const fin = (ganador) => {
     aciertos = 0;
 
@@ -122,8 +134,12 @@ const fin = (ganador) => {
         btnGetWord.disabled = false;
     } else {
         verificarTopScore();
-        alert("Puntaje final: " + JSON.parse(localStorage.getItem("jugador")).puntos);
-        window.location.href = "../index.html";
+        generarConfetti();
+        mostrarMensajeFinal();        
+        sleep(5000).then(() => {
+            window.location.href = "../index.html";
+        });
+
     }
 }
 
@@ -131,14 +147,157 @@ const verificarTopScore = () => {
     let listaTopScore = JSON.parse(localStorage.getItem("listaMejoresJugadores"));
     let jugador = JSON.parse(localStorage.getItem("jugador"));
     let menorEncontrado = false;
-    console.table(listaTopScore);
-    for(let i = 0; i < listaTopScore.length; i++){
-        if(jugador.puntos > listaTopScore[i].puntos && !menorEncontrado){
+    for (let i = 0; i < listaTopScore.length; i++) {
+        if (jugador.puntos > listaTopScore[i].puntos && !menorEncontrado) {
             menorEncontrado = true;
-            listaTopScore.splice(i,0,jugador);
+            listaTopScore.splice(i, 0, jugador);
             listaTopScore.pop();
         }
-    }    
-    console.table(listaTopScore);
+    }
     localStorage.setItem("listaMejoresJugadores", JSON.stringify(listaTopScore));
+}
+
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+const mostrarMensajeFinal = () => {  
+
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Puntuación Total: ' + JSON.parse(localStorage.getItem("jugador")).puntos,
+        text: "Cantidad de palabras adivinadas: " + palabrasAdivinadas,
+        showConfirmButton: false,
+        timer: 4000
+    })
+}
+
+const generarConfetti = () => {
+    tsParticles.load("tsparticles", {
+        "fullScreen": {
+            "zIndex": 1
+        },
+        "particles": {
+            "number": {
+                "value": 0
+            },
+            "color": {
+                "value": [
+                    "#00FFFC",
+                    "#FC00FF",
+                    "#fffc00"
+                ]
+            },
+            "shape": {
+                "type": "circle",
+                "options": {}
+            },
+            "opacity": {
+                "value": 1,
+                "animation": {
+                    "enable": true,
+                    "minimumValue": 0,
+                    "speed": 2,
+                    "startValue": "max",
+                    "destroy": "min"
+                }
+            },
+            "size": {
+                "value": 4,
+                "random": {
+                    "enable": true,
+                    "minimumValue": 2
+                }
+            },
+            "links": {
+                "enable": false
+            },
+            "life": {
+                "duration": {
+                    "sync": true,
+                    "value": 5
+                },
+                "count": 1
+            },
+            "move": {
+                "enable": true,
+                "gravity": {
+                    "enable": true,
+                    "acceleration": 10
+                },
+                "speed": {
+                    "min": 10,
+                    "max": 20
+                },
+                "decay": 0.1,
+                "direction": "none",
+                "straight": false,
+                "outModes": {
+                    "default": "destroy",
+                    "top": "none"
+                }
+            },
+            "rotate": {
+                "value": {
+                    "min": 0,
+                    "max": 360
+                },
+                "direction": "random",
+                "move": true,
+                "animation": {
+                    "enable": true,
+                    "speed": 60
+                }
+            },
+            "tilt": {
+                "direction": "random",
+                "enable": true,
+                "move": true,
+                "value": {
+                    "min": 0,
+                    "max": 360
+                },
+                "animation": {
+                    "enable": true,
+                    "speed": 60
+                }
+            },
+            "roll": {
+                "darken": {
+                    "enable": true,
+                    "value": 25
+                },
+                "enable": true,
+                "speed": {
+                    "min": 15,
+                    "max": 25
+                }
+            },
+            "wobble": {
+                "distance": 30,
+                "enable": true,
+                "move": true,
+                "speed": {
+                    "min": -15,
+                    "max": 15
+                }
+            }
+        },
+        "emitters": {
+            "life": {
+                "count": 5,
+                "duration": 0.1,
+                "delay": 0.4
+            },
+            "rate": {
+                "delay": 0.1,
+                "quantity": 150
+            },
+            "size": {
+                "width": 0,
+                "height": 0
+            }
+        }
+    });
+
 }
